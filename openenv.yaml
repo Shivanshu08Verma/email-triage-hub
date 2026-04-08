@@ -1,0 +1,136 @@
+name: email-triage-hub
+version: "1.0.0"
+description: >
+  Email Triage Hub — a realistic business email management environment where
+  AI agents learn to classify priority, route to departments, detect spam,
+  and draft professional responses. Models the daily work of an operations
+  or executive assistant in a mid-size company.
+author: email-triage-hub-team
+tags:
+  - openenv
+  - email
+  - triage
+  - nlp
+  - classification
+  - routing
+  - real-world
+
+entrypoint: server.py
+port: 8000
+
+tasks:
+  - id: priority_sort
+    name: "Priority Classification"
+    difficulty: easy
+    description: >
+      Classify 5 business emails as urgent, normal, or low priority.
+      Tests fundamental understanding of business context and urgency signals.
+    max_steps: 10
+    min_score: 0.0
+    max_score: 1.0
+    success_threshold: 0.6
+    email_count: 5
+
+  - id: department_routing
+    name: "Priority & Department Routing"
+    difficulty: medium
+    description: >
+      Classify priority AND route 8 emails to the correct department
+      (IT / HR / Sales / Support / Finance / Legal / Management).
+      Tests multi-label classification and domain knowledge.
+    max_steps: 20
+    min_score: 0.0
+    max_score: 1.0
+    success_threshold: 0.55
+    email_count: 8
+
+  - id: full_triage
+    name: "Full Email Triage"
+    difficulty: hard
+    description: >
+      Complete triage of 10 emails including 2 spam / phishing.
+      Agents must detect spam, classify priority, route departments,
+      and write professional response drafts for urgent emails.
+      Tests multi-step reasoning, spam detection, and text generation quality.
+    max_steps: 30
+    min_score: 0.0
+    max_score: 1.0
+    success_threshold: 0.50
+    email_count: 10
+
+observation_space:
+  type: object
+  description: "Current email + inbox state presented to the agent"
+  properties:
+    current_email:
+      type: object
+      nullable: true
+      description: "The email to triage next (null when episode ends)"
+      properties:
+        email_id:    { type: string }
+        sender:      { type: string }
+        subject:     { type: string }
+        body:        { type: string }
+        timestamp:   { type: string, format: "date-time" }
+        has_attachment: { type: boolean }
+    inbox_summary:
+      type: object
+      properties:
+        total_emails:      { type: integer }
+        processed:         { type: integer }
+        remaining:         { type: integer }
+        task_name:         { type: string }
+        task_description:  { type: string }
+    step_feedback:
+      type: string
+      nullable: true
+      description: "Correctness feedback from the previous step"
+    task_description:
+      type: string
+    requirements:
+      type: array
+      items: { type: string }
+    available_actions:
+      type: array
+      items: { type: string }
+
+action_space:
+  type: object
+  description: "Agent's triage decision for one email"
+  properties:
+    email_id:
+      type: string
+      description: "ID of the email being triaged"
+      required: true
+    priority:
+      type: string
+      enum: [urgent, normal, low]
+      description: "Required for tasks 1, 2, 3 (non-spam)"
+    department:
+      type: string
+      enum: [IT, HR, Sales, Support, Finance, Legal, Management]
+      description: "Required for tasks 2 and 3 (non-spam)"
+    is_spam:
+      type: boolean
+      description: "Required for task 3"
+    response_draft:
+      type: string
+      description: "50–200 word reply; required for urgent non-spam in task 3"
+
+reward_space:
+  type: number
+  minimum: 0.0
+  maximum: 1.0  # per step maximum (cumulative reaches 1.0 for perfect episode)
+  description: >
+    Partial progress reward per email processed.
+    Task 1: 1/n per correct priority.
+    Task 2: (0.5×priority + 0.5×dept) / n per email.
+    Task 3: weighted sum of priority (30%), dept (30%), spam (20%), response (20%) per email.
+
+endpoints:
+  health:  { method: GET,  path: /health }
+  ping:    { method: GET,  path: /ping }
+  reset:   { method: POST, path: /reset }
+  step:    { method: POST, path: /step }
+  state:   { method: GET,  path: /state }
+  tasks:   { method: GET,  path: /tasks }
