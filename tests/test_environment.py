@@ -251,7 +251,7 @@ def test_task1_reset_clears_state():
     assert state.done is False
 
 
-# Task 2
+#Task 2
 
 def test_task2_perfect_score():
     env = EmailTriageEnv(task="department_routing")
@@ -303,7 +303,7 @@ def test_task2_8_emails():
     assert obs.inbox_summary.total_emails == 8
 
 
-# Task 3 
+# Task 3
 
 def test_task3_perfect_score():
     env = EmailTriageEnv(task="full_triage")
@@ -405,7 +405,7 @@ def test_state_after_one_step():
     assert s.cumulative_reward > 0.0
 
 
-# Email dataset 
+# Email dataset
 
 def test_email_data_has_ground_truth():
     for email in EMAIL_MAP.values():

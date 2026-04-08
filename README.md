@@ -1,12 +1,3 @@
----
-title: Email Triage Hub
-emoji: 📬
-colorFrom: blue
-colorTo: green
-sdk: docker
-app_port: 7860
----
-
 # 📬 Email Triage Hub — OpenEnv Environment
 
 [![OpenEnv](https://img.shields.io/badge/OpenEnv-1.0-blue)](https://github.com/openenv)

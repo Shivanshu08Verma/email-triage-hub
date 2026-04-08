@@ -25,7 +25,7 @@ class TaskSpec:
     success_threshold: float = 0.6   # score >= this counts as solved
 
 
-# Task registry 
+# Task registry
 
 TASK_REGISTRY: dict[str, TaskSpec] = {
     "priority_sort": TaskSpec(

@@ -5,7 +5,7 @@ Email dataset with ground-truth labels for the Email Triage Hub environment.
 from typing import List, Dict, Any
 
 EMAILS: List[Dict[str, Any]] = [
-    # URGENT
+    # URGENT 
     {
         "email_id": "E001",
         "sender": "devops@techcorp.com",
@@ -238,7 +238,7 @@ EMAILS: List[Dict[str, Any]] = [
         "is_spam": False,
         "needs_response": True,
     },
-    # LOW PRIORITY
+    #LOW PRIORITY
     {
         "email_id": "E011",
         "sender": "newsletter@industryblog.com",
@@ -300,7 +300,7 @@ EMAILS: List[Dict[str, Any]] = [
         "is_spam": False,
         "needs_response": False,
     },
-    # SPAM
+    # ───────────────────── SPAM ─────────────────────
     {
         "email_id": "E014",
         "sender": "noreply@prize-winner-2024.xyz",
@@ -347,7 +347,7 @@ EMAILS: List[Dict[str, Any]] = [
     },
 ]
 
-#   Task email selections 
+#Task email selections
 # Task 1 – Easy: 5 emails, varied priorities, no spam
 TASK_EMAILS: Dict[str, List[str]] = {
     "priority_sort": ["E001", "E002", "E005", "E011", "E013"],

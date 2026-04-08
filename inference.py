@@ -31,7 +31,7 @@ from openai import OpenAI
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o-mini")
 HF_TOKEN = os.getenv("HF_TOKEN")                   
-LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME") 
+LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")   
 ENV_URL: str = os.getenv("ENV_URL", "http://localhost:8000")
 
 BENCHMARK = "email-triage-hub"
@@ -91,7 +91,7 @@ def log_end(*, success: bool, steps: int, score: float, rewards: List[float]) ->
     )
 
 
-#Environment HTTP client
+# Environment HTTP client
 
 async def env_reset(client: httpx.AsyncClient, task: str) -> Dict[str, Any]:
     """POST /reset and return the parsed JSON response."""
@@ -329,7 +329,7 @@ async def run_task(
             raw_response = _call_llm(llm_client, system_prompt, user_prompt, task)
             action_dict = _parse_action(raw_response, current_email_id)
 
-            # Environment step
+            # Environment step 
             try:
                 result = await env_step(http_client, action_dict)
                 reward = float(result.get("reward", 0.0))
@@ -365,7 +365,7 @@ async def run_task(
             if done:
                 break
 
-        #Score 
+        # Score
         score = (
             sum(rewards) / max_total_reward
             if max_total_reward > 0
@@ -383,7 +383,7 @@ async def run_task(
     return score
 
 
-#  Main
+# Main
 
 async def main() -> None:
     if not HF_TOKEN:

@@ -49,7 +49,7 @@ class EmailTriageEnv:
         self.done: bool = False
         self._last_feedback: Optional[str] = None
 
-    # Public interface 
+    # Public interface
 
     def reset(self) -> EmailObservation:
         """Reset the environment for a new episode. Returns the first observation."""

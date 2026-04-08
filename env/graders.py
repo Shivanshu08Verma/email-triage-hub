@@ -17,7 +17,8 @@ from env.email_data import EMAIL_MAP
 VALID_PRIORITIES = {"urgent", "normal", "low"}
 VALID_DEPARTMENTS = {"IT", "HR", "Sales", "Support", "Finance", "Legal", "Management"}
 
-# Atomic graders
+#Atomic graders
+
 def _grade_priority(action_priority: Optional[str], email_id: str) -> float:
     """1.0 if priority matches ground truth, 0.0 otherwise."""
     if not action_priority:
@@ -199,8 +200,6 @@ def compute_task3_reward(
     return round(reward, 6)
 
 
-# Episode-level final grader
-
 def compute_episode_score(
     processed_actions: list, task: str, email_ids: List[str]
 ) -> Dict[str, Any]:
@@ -208,7 +207,7 @@ def compute_episode_score(
     Compute a final breakdown score for the entire episode.
     Returns a dict with per-component accuracies and overall score in [0.0, 1.0].
     """
-    from env.email_data import EMAIL_MAP  # local import to avoid circular
+    from env.email_data import EMAIL_MAP 
 
     priority_correct = 0
     priority_total = 0

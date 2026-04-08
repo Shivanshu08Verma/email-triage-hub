@@ -33,7 +33,7 @@ class InboxSummary(BaseModel):
     task_description: str = Field(..., description="Human-readable task description")
 
 
-# Observation
+# Observation 
 
 class EmailObservation(BaseModel):
     """
